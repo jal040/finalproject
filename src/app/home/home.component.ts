@@ -35,6 +35,7 @@ export class HomeComponent {
     );
   };
   
+  status: string = 'daily';
   stockDailyData: any;
   stockWeeklyData: any;
   stockMonthlyData: any;
@@ -43,64 +44,158 @@ export class HomeComponent {
     { data : [], label: 'close'}
   ];
   
-  labelArray:Array<any> = [];
-
-  
-  displayDailyData(symbol) {
-    console.log("daily data");
-    this._stockApiService.getDailyData(symbol).subscribe(
-      (res) => {
-        console.log(res);
-        this.stockDailyData = res;
-        console.log(this.stockDailyData["Time Series (Daily)"]);
-        let dates = this.stockDailyData["Time Series (Daily)"];
-        this.closeArray[0].data = [];
-        this.lineChartLabels = [];
-        //this.labelArray = [];
-        for (let date in dates) {
-          //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
-          let date1 = this.stockDailyData["Time Series (Daily)"][date];
-          this.lineChartLabels.push(date);
-          let closePoint = Number(date1["4. close"]);
-          this.closeArray[0].data.push(closePoint);
-          //console.log(parseFloat(date1["4. close"]).toFixed(2));
-          //console.log(this.lineChartLabels);
-        }
-        this.closeArray[0].data = this.closeArray[0].data.slice(0, 14);
-        this.lineChartLabels = this.lineChartLabels.reverse().slice(0, 14);
-      }
-    );
-    
-  };
-  
   closeArrayWeekly: Array<any> = [
     { data : [], label: 'close'}
   ];
   
-  displayWeeklyData(symbol) {
-    this._stockApiService.getWeeklyData(symbol).subscribe(
-      (res) => {
-        console.log(res);
-        this.stockWeeklyData = res;
-        console.log(this.stockWeeklyData["Weekly Time Series"]);
-        let dates = this.stockWeeklyData["Weekly Time Series"];
-        this.closeArrayWeekly[0].data = [];
-        this.lineChartLabels = [];
-        //this.labelArray = [];
-        for (let date in dates) {
-          //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
-          let date1 = this.stockWeeklyData["Weekly Time Series"][date];
-          this.lineChartLabels.push(date);
-          let closePoint = Number(date1["4. close"]);
-          this.closeArrayWeekly[0].data.push(closePoint);
-          //console.log(parseFloat(date1["4. close"]).toFixed(2));
-          //console.log(this.lineChartLabels);
-        }
-        this.closeArray = this.closeArrayWeekly;
-        this.lineChartLabels = this.lineChartLabels.slice(0,14);
-      }
-    );
+  closeArrayMonthly: Array<any> = [
+    { data: [], label: 'close'}
+  ];
+  
+  labelArray:Array<any> = [];
+  
+  goDaily(symbol) {
+    this.status = 'daily';
+    this.displayData(symbol);
   };
+  
+  goWeekly(symbol) {
+    this.status = 'weekly';
+    this.displayData(symbol);
+  };
+  
+  goMonthly(symbol) {
+    this.status = 'monthly';
+    this.displayData(symbol);
+  };
+
+  displayData(symbol) {
+    if(this.status === 'daily'){
+      console.log("daily data");
+      this._stockApiService.getDailyData(symbol).subscribe(
+        (res) => {
+          console.log(res);
+          this.stockDailyData = res;
+          console.log(this.stockDailyData["Time Series (Daily)"]);
+          let dates = this.stockDailyData["Time Series (Daily)"];
+          this.closeArray[0].data = [];
+          this.lineChartLabels = [];
+          //this.labelArray = [];
+          for (let date in dates) {
+            //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
+            let date1 = this.stockDailyData["Time Series (Daily)"][date];
+            this.lineChartLabels.push(date);
+            let closePoint = Number(date1["4. close"]);
+            this.closeArray[0].data.push(closePoint);
+            //console.log(parseFloat(date1["4. close"]).toFixed(2));
+            //console.log(this.lineChartLabels);
+          }
+          this.closeArray[0].data = this.closeArray[0].data.slice(0, 14);
+          this.lineChartLabels = this.lineChartLabels.reverse().slice(0, 14);
+        }
+      ); 
+    } else if( this.status === 'weekly'){
+      this._stockApiService.getWeeklyData(symbol).subscribe(
+        (res) => {
+          console.log(res);
+          this.stockWeeklyData = res;
+          console.log(this.stockWeeklyData["Weekly Time Series"]);
+          let dates = this.stockWeeklyData["Weekly Time Series"];
+          this.closeArrayWeekly[0].data = [];
+          this.lineChartLabels = [];
+          //this.labelArray = [];
+          for (let date in dates) {
+            //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
+            let date1 = this.stockWeeklyData["Weekly Time Series"][date];
+            this.lineChartLabels.push(date);
+            let closePoint = Number(date1["4. close"]);
+            this.closeArrayWeekly[0].data.push(closePoint);
+            //console.log(parseFloat(date1["4. close"]).toFixed(2));
+            //console.log(this.lineChartLabels);
+          }
+          this.closeArray = this.closeArrayWeekly;
+          this.lineChartLabels = this.lineChartLabels.slice(0,14);
+        }
+      );
+    } else if( this.status === 'monthly'){
+      this._stockApiService.getMonthlyData(symbol).subscribe(
+        (res) => {
+          console.log(res);
+          this.stockMonthlyData = res;
+          console.log(this.stockMonthlyData["Monthly Time Series"]);
+          let dates = this.stockMonthlyData["Monthly Time Series"];
+          this.closeArrayMonthly[0].data = [];
+          this.lineChartLabels = [];
+          //this.labelArray = [];
+          for (let date in dates) {
+            //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
+            let date1 = this.stockMonthlyData["Monthly Time Series"][date];
+            this.lineChartLabels.push(date);
+            let closePoint = Number(date1["4. close"]);
+            this.closeArrayMonthly[0].data.push(closePoint);
+            //console.log(parseFloat(date1["4. close"]).toFixed(2));
+            //console.log(this.lineChartLabels);
+          }
+          this.closeArray = this.closeArrayMonthly;
+          this.lineChartLabels = this.lineChartLabels.slice(0,13);
+        }
+      );
+    }
+  };
+  
+  
+  // displayDailyData(symbol) {
+  //   console.log("daily data");
+  //   this._stockApiService.getDailyData(symbol).subscribe(
+  //     (res) => {
+  //       console.log(res);
+  //       this.stockDailyData = res;
+  //       console.log(this.stockDailyData["Time Series (Daily)"]);
+  //       let dates = this.stockDailyData["Time Series (Daily)"];
+  //       this.closeArray[0].data = [];
+  //       this.lineChartLabels = [];
+  //       //this.labelArray = [];
+  //       for (let date in dates) {
+  //         //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
+  //         let date1 = this.stockDailyData["Time Series (Daily)"][date];
+  //         this.lineChartLabels.push(date);
+  //         let closePoint = Number(date1["4. close"]);
+  //         this.closeArray[0].data.push(closePoint);
+  //         //console.log(parseFloat(date1["4. close"]).toFixed(2));
+  //         //console.log(this.lineChartLabels);
+  //       }
+  //       this.closeArray[0].data = this.closeArray[0].data.slice(0, 14);
+  //       this.lineChartLabels = this.lineChartLabels.reverse().slice(0, 14);
+  //     }
+  //   );
+  // };
+
+  
+  // displayWeeklyData(symbol) {
+  //   this._stockApiService.getWeeklyData(symbol).subscribe(
+  //     (res) => {
+  //       console.log(res);
+  //       this.stockWeeklyData = res;
+  //       console.log(this.stockWeeklyData["Weekly Time Series"]);
+  //       let dates = this.stockWeeklyData["Weekly Time Series"];
+  //       this.closeArrayWeekly[0].data = [];
+  //       this.lineChartLabels = [];
+  //       //this.labelArray = [];
+  //       for (let date in dates) {
+  //         //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
+  //         let date1 = this.stockWeeklyData["Weekly Time Series"][date];
+  //         this.lineChartLabels.push(date);
+  //         let closePoint = Number(date1["4. close"]);
+  //         this.closeArrayWeekly[0].data.push(closePoint);
+  //         //console.log(parseFloat(date1["4. close"]).toFixed(2));
+  //         //console.log(this.lineChartLabels);
+  //       }
+  //       this.closeArray = this.closeArrayWeekly;
+  //       this.lineChartLabels = this.lineChartLabels.slice(0,14);
+  //     }
+  //   );
+  // };
+  
   
   
   // lineChart

@@ -30,5 +30,9 @@ export class StockApiDataService {
     //   return this.http.get(this.weeklyUrl + symbol + '&apikey='+ this.apiKey);
     return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=' + symbol + '&apikey=' + this.apiKey);
   };
+  
+  getMonthlyData(symbol){
+    return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=' + symbol + '&apikey=' + this.apiKey);
+  };
 
 }

@@ -16,13 +16,18 @@
 <div>
     <input type="text" style="float:left;" placeholder="Search.."
     required [(ngModel)]="_stockApiService.stockSymbol" name="symbol">
-    <button type="submit" class="btn btn-primary" (click)="displayDailyData(_stockApiService.stockSymbol)">get stock data</button>
+    <button type="submit" class="btn btn-primary" (click)="goDaily(_stockApiService.stockSymbol)">get stock data</button>
 </div>
 
 <br>
 
 <div>
-    <button type="submit" class="btn btn-primary" (click)="displayWeeklyData(_stockApiService.stockSymbol)">Weekly</button>
+    <!--<button type="submit" class="btn btn-primary" (click)="displayDailyData(_stockApiService.stockSymbol)">Daily</button>-->
+    <!--<button type="submit" class="btn btn-primary" (click)="displayWeeklyData(_stockApiService.stockSymbol)">Weekly</button>-->
+    <!--<button type="submit" class="btn btn-primary" (click)="displayMonthlyData(_stockApiService.stockSymbol)">Monthly</button>-->
+    <button type="submit" class="btn btn-primary" (click)="goDaily(_stockApiService.stockSymbol)">Daily</button>
+    <button type="submit" class="btn btn-primary" (click)="goWeekly(_stockApiService.stockSymbol)">Weekly</button>
+    <button type="submit" class="btn btn-primary" (click)="goMonthly(_stockApiService.stockSymbol)">Monthly</button>
 </div>
 
 <div class="row">

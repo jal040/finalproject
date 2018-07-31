@@ -13,11 +13,22 @@ export class StockApiDataService {
 
     apiKey: string = 'BPP71N0IQ7U56SPJ';
 
-    url: string = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&outputsize=compact&apikey=';
+    dailyUrl: string = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=';
+    weeklyUrl: string = 'https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=';
+    url: string = '&outputsize=compact&apikey=';
+    //microsfot: msft. apple: aapl. 
+    stockSymbol: string = '';
+    
   
-  stockSymbol: string = 'MSFT';
-  getDailyData(){
-      return this.http.get(this.url+this.apiKey);
-  }
+  getDailyData(symbol){
+      console.log(this.dailyUrl + symbol + this.url + this.apiKey);
+      console.log("HELLOOOO");
+      return this.http.get(this.dailyUrl + symbol + this.url + this.apiKey);
+  };
+  
+  getWeeklyData(symbol){
+    //   return this.http.get(this.weeklyUrl + symbol + '&apikey='+ this.apiKey);
+    return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=' + symbol + '&apikey=' + this.apiKey);
+  };
 
 }

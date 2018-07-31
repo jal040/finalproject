@@ -11,27 +11,24 @@
       <p>WELCOME {{ user.firstName }}</p>
       <app-logout></app-logout>
   </div>
+<br>
 
+<div>
+    <input type="text" style="float:left;" placeholder="Search.."
+    required [(ngModel)]="_stockApiService.stockSymbol" name="symbol">
+    <button type="submit" class="btn btn-primary" (click)="displayDailyData(_stockApiService.stockSymbol)">get stock data</button>
+</div>
 
-<clr-dropdown>
-    <button clrDropdownTrigger class="btn">
-        Dropdown
-        <clr-icon shape="caret down"></clr-icon>
-    </button>
-    <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-        <a clrDropdownItem href="javascript://">Action 1</a>
-        <a clrDropdownItem href="javascript://">Action 2</a>
-        <div class="dropdown-divider"></div>
-        <a clrDropdownItem href="javascript://">Link 1</a>
-        <a clrDropdownItem href="javascript://">Link 2</a>
-    </clr-dropdown-menu>
-</clr-dropdown>
+<br>
 
+<div>
+    <button type="submit" class="btn btn-primary" (click)="displayWeeklyData(_stockApiService.stockSymbol)">Weekly</button>
+</div>
 
 <div class="row">
   <div class="col-md-6">
     <div style="display: block;">
-    <canvas baseChart width="400" height="400"
+    <canvas baseChart width="700px" height="700px"
                 [datasets]="lineChartData"
                 [labels]="lineChartLabels"
                 [options]="lineChartOptions"
@@ -42,18 +39,30 @@
                 (chartClick)="chartClicked($event)"></canvas>
     </div>
   </div>
-  <div class="col-md-6" style="margin-bottom: 10px">
-    <table class="table table-responsive table-condensed">
-      <tr>
-        <th *ngFor="let label of lineChartLabels">{{label}}</th>
-      </tr>
-      <tr *ngFor="let d of lineChartData">
-        <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
-      </tr>
-    </table>
-    <button (click)="randomize()">CLICK</button>
-  </div>
+  <!--<div class="col-md-6" style="margin-bottom: 10px">-->
+  <!--  <table class="table table-responsive table-condensed">-->
+  <!--    <tr>-->
+  <!--      <th *ngFor="let label of lineChartLabels">{{label}}</th>-->
+  <!--    </tr>-->
+  <!--    <tr *ngFor="let d of lineChartData">-->
+  <!--      <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>-->
+  <!--    </tr>-->
+  <!--  </table>-->
+  <!--  <button (click)="randomize()">CLICK</button>-->
+  <!--</div>-->
 </div>
 
-<button type="submit" class="btn btn-primary" (click)="displayDailyData()">get microsoft stock data</button>
 
+<!--<clr-dropdown>-->
+<!--    <button clrDropdownTrigger class="btn">-->
+<!--        Dropdown-->
+<!--        <clr-icon shape="caret down"></clr-icon>-->
+<!--    </button>-->
+<!--    <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">-->
+<!--        <a clrDropdownItem href="javascript://">Action 1</a>-->
+<!--        <a clrDropdownItem href="javascript://">Action 2</a>-->
+<!--        <div class="dropdown-divider"></div>-->
+<!--        <a clrDropdownItem href="javascript://">Link 1</a>-->
+<!--        <a clrDropdownItem href="javascript://">Link 2</a>-->
+<!--    </clr-dropdown-menu>-->
+<!--</clr-dropdown>-->

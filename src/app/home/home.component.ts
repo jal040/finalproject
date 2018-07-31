@@ -21,6 +21,8 @@ export class HomeComponent {
     private router: Router) { }
   
   user: any;
+  
+  //symbol: string;
 
   ngOnInit() {
     // the service.getUser() method returns an Observable
@@ -31,29 +33,85 @@ export class HomeComponent {
         this.user = res;
       }
     );
-  }
+  };
   
-  displayDailyData(){
+  stockDailyData: any;
+  stockWeeklyData: any;
+  stockMonthlyData: any;
+
+  closeArray: Array<any> = [
+    { data : [], label: 'close'}
+  ];
+  
+  labelArray:Array<any> = [];
+
+  
+  displayDailyData(symbol) {
     console.log("daily data");
-    this._stockApiService.getDailyData().subscribe(
+    this._stockApiService.getDailyData(symbol).subscribe(
       (res) => {
         console.log(res);
+        this.stockDailyData = res;
+        console.log(this.stockDailyData["Time Series (Daily)"]);
+        let dates = this.stockDailyData["Time Series (Daily)"];
+        this.closeArray[0].data = [];
+        this.lineChartLabels = [];
+        //this.labelArray = [];
+        for (let date in dates) {
+          //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
+          let date1 = this.stockDailyData["Time Series (Daily)"][date];
+          this.lineChartLabels.push(date);
+          let closePoint = Number(date1["4. close"]);
+          this.closeArray[0].data.push(closePoint);
+          //console.log(parseFloat(date1["4. close"]).toFixed(2));
+          //console.log(this.lineChartLabels);
+        }
+        this.closeArray[0].data = this.closeArray[0].data.slice(0, 14);
+        this.lineChartLabels = this.lineChartLabels.reverse().slice(0, 14);
       }
     );
     
   };
   
+  closeArrayWeekly: Array<any> = [
+    { data : [], label: 'close'}
+  ];
+  
+  displayWeeklyData(symbol) {
+    this._stockApiService.getWeeklyData(symbol).subscribe(
+      (res) => {
+        console.log(res);
+        this.stockWeeklyData = res;
+        console.log(this.stockWeeklyData["Weekly Time Series"]);
+        let dates = this.stockWeeklyData["Weekly Time Series"];
+        this.closeArrayWeekly[0].data = [];
+        this.lineChartLabels = [];
+        //this.labelArray = [];
+        for (let date in dates) {
+          //console.log(date, this.stockDailyData["Time Series (Daily)"][date]);
+          let date1 = this.stockWeeklyData["Weekly Time Series"][date];
+          this.lineChartLabels.push(date);
+          let closePoint = Number(date1["4. close"]);
+          this.closeArrayWeekly[0].data.push(closePoint);
+          //console.log(parseFloat(date1["4. close"]).toFixed(2));
+          //console.log(this.lineChartLabels);
+        }
+        this.closeArray = this.closeArrayWeekly;
+        this.lineChartLabels = this.lineChartLabels.slice(0,14);
+      }
+    );
+  };
+  
   
   // lineChart
-  public lineChartData:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
-    {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
-  ];
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  // For stock, the data points will be the CLOSE numbers.
+  public lineChartData:Array<any> = this.closeArray;
+  
+  public lineChartLabels:Array<any> = ['July', 'June', 'May', 'April', 'March'];
   public lineChartOptions:any = {
     responsive: true
   };
+  
   public lineChartColors:Array<any> = [
     { // grey
       backgroundColor: 'rgba(148,159,177,0.2)',

@@ -39,6 +39,10 @@ export class HomeComponent {
   stockDailyData: any;
   stockWeeklyData: any;
   stockMonthlyData: any;
+  
+  stockSymbol: any = {
+    ticker: ''
+  };
 
   closeArray: Array<any> = [
     { data : [], label: 'close'}
@@ -143,6 +147,16 @@ export class HomeComponent {
     }
   };
   
+  addToFavorites(symbol){
+    this.stockSymbol.ticker = symbol;
+    this._stockApiService.addSymbol(this.stockSymbol).subscribe(
+      (res) => {
+        console.log(this.stockSymbol);
+        console.log(res);
+      }
+      
+    );
+  };
   
   // displayDailyData(symbol) {
   //   console.log("daily data");

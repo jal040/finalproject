@@ -28,6 +28,10 @@
     <button type="submit" class="btn btn-primary" (click)="goDaily(_stockApiService.stockSymbol)">Daily</button>
     <button type="submit" class="btn btn-primary" (click)="goWeekly(_stockApiService.stockSymbol)">Weekly</button>
     <button type="submit" class="btn btn-primary" (click)="goMonthly(_stockApiService.stockSymbol)">Monthly</button>
+    <button type="submit" class="btn btn-primary" 
+      *ngIf="add" (click)="addToFavorites(_stockApiService.stockSymbol)">Add to Favorites</button>
+    <button type="submit" class="btn btn-primary" 
+      *ngIf="!add" (click)="addToFavorites(_stockApiService.stockSymbol)">Add to Favorites</button>
 </div>
 
 <div class="row">

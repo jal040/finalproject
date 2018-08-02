@@ -34,5 +34,20 @@ export class StockApiDataService {
   getMonthlyData(symbol){
     return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=' + symbol + '&apikey=' + this.apiKey);
   };
+  
+  addSymbol(ticker){
+    let userId = window.sessionStorage.getItem('userId');
+    let token = window.sessionStorage.getItem('token');
+    console.log("TICKER!!! " + JSON.stringify(ticker));
+    return this.http.post("http://summer-jamie-2018-phortonssf.c9users.io:8080/api/appUsers/" + userId + "/stocks?access_token=" + token, ticker);
+  };
+  
+  removeSymbol(ticker){
+    let userId = window.sessionStorage.getItem('userId');
+    let token = window.sessionStorage.getItem('token');
+    console.log("TICKER!!! " + JSON.stringify(ticker));
+    return this.http.delete("http://summer-jamie-2018-phortonssf.c9users.io:8080/api/appUsers/" + userId + "/stocks?access_token=" + token, ticker);
+  };
 
 }
+

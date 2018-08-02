@@ -10,6 +10,9 @@ export class UserService {
   
   url: string = 'http://summer-jamie-2018-phortonssf.c9users.io:8080/api/appUsers';
   
+  //http://summer-jamie-2018-phortonssf.c9users.io:8080/api/appUsers/5b5949e6df90a62626c31352/stocks?access_token=5b5949e6df90a62626c31352
+
+  
   // These functions return "Observables"
   
   registerUser(user) {
@@ -27,5 +30,6 @@ export class UserService {
   getUser(id, token) {
       return this.http.get(this.url + '/' + id + '?access_token=' + token );
   };
+  
   
 }
